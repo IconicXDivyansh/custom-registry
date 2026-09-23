@@ -1,0 +1,22 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry.json",
+  "name": "custom-registry",
+  "homepage": "http://localhost:3000",
+  "items": [
+    {
+      "name": "custom-button",
+      "type": "registry:ui",
+      "title": "Custom Button",
+      "description": "A button built on the shadcn button, with a small hover and press animation.",
+      "dependencies": ["motion"],
+      "registryDependencies": ["button"],
+      "files": [
+        {
+          "path": "registry/custom-button/custom-button.tsx",
+          "type": "registry:ui",
+          "target": "@ui/custom-button.tsx"
+        }
+      ]
+    }
+  ]
+}
