@@ -128,5 +128,6 @@
     @apply font-sans;
   }
 }
+@import 'fumadocs-ui/css/generated/glass.css';
 @import 'fumadocs-ui/css/shadcn.css';
 @import 'fumadocs-ui/css/preset.css';

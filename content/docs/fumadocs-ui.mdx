@@ -1,0 +1,222 @@
+---
+title: Fumadocs UI
+description: The components Fumadocs already provides, rendered with real values.
+---
+
+import { House } from "lucide-react"
+import { Accordion, Accordions } from "fumadocs-ui/components/accordion"
+import { Banner } from "fumadocs-ui/components/banner"
+import { DynamicCodeBlock } from "fumadocs-ui/components/dynamic-codeblock"
+import { File, Files, Folder } from "fumadocs-ui/components/files"
+import { InlineTOC } from "fumadocs-ui/components/inline-toc"
+import { Step, Steps } from "fumadocs-ui/components/steps"
+import { Tab, Tabs } from "fumadocs-ui/components/tabs"
+import { TypeTable } from "fumadocs-ui/components/type-table"
+
+<Banner id="fumadocs-defaults" changeLayout={false}>
+  These are the built-in Fumadocs components. Custom Button stays a separate page.
+</Banner>
+
+Headings, links, lists, quotes, tables, and fenced code are already styled. Cards, callouts, and code tabs are included too. Accordions, tabs, steps, files, the inline table of contents, the type table, and the banner are imported on this page because they are not part of the default Markdown map.
+
+<InlineTOC
+  items={[
+    { title: "Text", url: "#text", depth: 2 },
+    { title: "Cards", url: "#cards", depth: 2 },
+    { title: "Callouts", url: "#callouts", depth: 2 },
+    { title: "Code", url: "#code", depth: 2 },
+    { title: "Tabs", url: "#tabs", depth: 2 },
+    { title: "Accordions", url: "#accordions", depth: 2 },
+    { title: "Steps", url: "#steps", depth: 2 },
+    { title: "Files", url: "#files", depth: 2 },
+    { title: "Type table", url: "#type-table", depth: 2 },
+  ]}
+/>
+
+## Text
+
+A sentence with **bold**, _italic_, and ~~struck~~ words. An internal link to [Custom Button](/docs/components/custom-button), and an external link to [Fumadocs](https://www.fumadocs.dev).
+
+1. Write the component in `registry/`
+2. Describe it in `registry.json`
+3. Build `public/r`
+
+- Preview imports the registry source
+- Consumers install into `components/ui`
+
+> The registry file is the source of truth. The UI folder is the installed copy.
+
+| Piece | Role |
+| --- | --- |
+| `registry.json` | Catalog of items |
+| `registry/custom-button` | Source that gets published |
+| `public/r/custom-button.json` | File the CLI installs |
+
+## Cards
+
+<Cards>
+  <Card
+    href="/docs/components/custom-button"
+    title="Custom Button"
+    description="A button built on the shadcn button, with a small hover and press animation."
+    icon={<House />}
+  />
+  <Card title="No link" description="A card does not need an href.">
+    This one only describes the registry folder.
+  </Card>
+  <Card
+    href="https://ui.shadcn.com/docs/registry"
+    title="shadcn registry"
+    description="The install contract this project publishes."
+    external
+  />
+</Cards>
+
+## Callouts
+
+<Callout title="Info" type="info">
+  `homepage` is still `http://localhost:3000` until a public domain exists.
+</Callout>
+
+<Callout title="Warning" type="warn">
+  Editing the component without `pnpm registry:build` leaves `public/r` stale.
+</Callout>
+
+<Callout title="Error" type="error">
+  An empty `meta.json` fails the docs build. The file must be valid JSON.
+</Callout>
+
+<Callout title="Success" type="success">
+  `pnpm registry:build` writes `public/r/custom-button.json`.
+</Callout>
+
+<Callout title="Idea" type="idea">
+  A later component is another name in `content/docs/components/meta.json`.
+</Callout>
+
+## Code
+
+```ts
+export const docsRoute = "/docs"
+```
+
+```ts lineNumbers
+function CustomButton(props: ComponentProps<typeof Button>) {
+  return <Button {...props} />
+}
+```
+
+```ts
+const name = "custom-registry" // [!code highlight]
+```
+
+```ts tab="pnpm"
+pnpm dlx shadcn@latest add http://localhost:3000/r/custom-button.json
+```
+
+```ts tab="npm"
+npx shadcn@latest add http://localhost:3000/r/custom-button.json
+```
+
+<DynamicCodeBlock
+  lang="json"
+  code={'{\n  "name": "custom-button",\n  "type": "registry:ui"\n}'}
+/>
+
+## Tabs
+
+<Tabs items={["Registry source", "Installed copy"]} label="Import">
+  <Tab value="Registry source">
+
+```tsx
+import { CustomButton } from "@/registry/custom-button/custom-button"
+```
+
+  </Tab>
+  <Tab value="Installed copy">
+
+```tsx
+import { CustomButton } from "@/components/ui/custom-button"
+```
+
+  </Tab>
+</Tabs>
+
+## Accordions
+
+<Accordions defaultValue={["Registry source"]}>
+  <Accordion title="Registry source" id="accordion-registry">
+    `registry/custom-button/custom-button.tsx` is what `shadcn build` publishes.
+  </Accordion>
+  <Accordion title="Installed copy" id="accordion-installed">
+    `components/ui/custom-button.tsx` is what a consumer gets after `shadcn add`.
+  </Accordion>
+</Accordions>
+
+## Steps
+
+<Steps>
+  <Step>
+    ### Author
+
+    Write the component under `registry/[name]`.
+  </Step>
+  <Step>
+    ### Describe
+
+    Add an item to the root `registry.json`.
+  </Step>
+  <Step>
+    ### Publish
+
+    Run `pnpm registry:build`, then serve `public/r`.
+  </Step>
+</Steps>
+
+## Files
+
+<Files>
+  <Folder name="registry" defaultOpen>
+    <Folder name="custom-button" defaultOpen>
+      <File name="custom-button.tsx" />
+    </Folder>
+  </Folder>
+  <Folder name="content/docs" defaultOpen>
+    <File name="index.mdx" />
+    <File name="fumadocs-ui.mdx" />
+    <Folder name="components" defaultOpen>
+      <File name="custom-button.mdx" />
+      <File name="meta.json" />
+    </Folder>
+  </Folder>
+  <Folder name="public/r" defaultOpen>
+    <File name="registry.json" />
+    <File name="custom-button.json" />
+  </Folder>
+</Files>
+
+## Type table
+
+<TypeTable
+  type={{
+    title: {
+      description: "The label on a docs card.",
+      type: "string",
+      required: true,
+    },
+    description: {
+      description: "The smaller line under the title.",
+      type: "string",
+    },
+    href: {
+      description: "Where the card goes. Omit it for a card that is not a link.",
+      type: "string",
+      default: "undefined",
+    },
+    external: {
+      description: "Opens the link in a new tab.",
+      type: "boolean",
+      default: "false",
+    },
+  }}
+/>
